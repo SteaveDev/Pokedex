@@ -7,7 +7,7 @@ export class BorderCardDirective {
 
   private GREY_COLOR = 'grey';
   private GREEN_COLOR = 'green';
-  @Input('appBorderCard') borderColor: any;
+  @Input('appPkmnBorderCard') borderColor: any;
 
 
   private setBorder(color: string): void{

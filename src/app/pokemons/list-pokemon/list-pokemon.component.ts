@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Pokemon } from '../pokemon';
-import { POKEMONS } from '../shared/list.pokemons';
+import { Pokemon } from '../../pokemon';
+import { POKEMONS } from '../../shared/list.pokemons';
 import {Router} from '@angular/router';
 
 @Component({
