@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Pokemon} from '../../pokemon';
 import {ActivatedRoute, Router} from '@angular/router';
 import {POKEMONS} from '../../shared/list.pokemons';
+import {PokemonsService} from '../pokemons.service';
 
 @Component({
   selector: 'app-detail-pokemon',
@@ -13,11 +14,13 @@ export class DetailPokemonComponent implements OnInit {
   listOfPokemons: Pokemon[] = POKEMONS;
   pokemonToDisplay: Pokemon | undefined;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private pokemonService: PokemonsService) {
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    // @ts-ignore
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.pokemonToDisplay = this.pokemonService.getSinglePokemon(id);
 
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.listOfPokemons.length; i++) {
