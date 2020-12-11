@@ -49,4 +49,8 @@ export class DetailPokemonComponent implements OnInit {
     this.router.navigate(link);
   }
 
+  supprimerPokemon(pokemonToRemove: Pokemon): void{
+    this.pokemonService.deletePokemon(pokemonToRemove).subscribe(() => this.goToPage('pokemon'));
+}
+
 }

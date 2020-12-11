@@ -7,6 +7,7 @@ import {PokemonTypeColorPipe} from '../shared/pipes/pokemon-type-color.pipe';
 import { PokemonFormComponent } from './pokemon-form/pokemon-form.component';
 import {FormsModule} from '@angular/forms';
 import { PokemonEditComponent } from './pokemon-edit/pokemon-edit.component';
+import { SearchPokemonComponent } from './search-pokemon/search-pokemon.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { PokemonEditComponent } from './pokemon-edit/pokemon-edit.component';
     BorderCardDirective,
     PokemonTypeColorPipe,
     PokemonFormComponent,
-    PokemonEditComponent
+    PokemonEditComponent,
+    SearchPokemonComponent
   ],
   imports: [
     CommonModule,

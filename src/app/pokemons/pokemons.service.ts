@@ -42,11 +42,23 @@ export class PokemonsService {
 
   updatePokemon(pokemon: Pokemon): Observable<Pokemon> {
     const httpOptions = {
-      headers : new HttpHeaders({'Context-type': 'application/json'})
+      headers: new HttpHeaders({'Context-type': 'application/json'})
     };
     return this.http.put(this.pokemonsUrl, pokemon, httpOptions).pipe(
-      tap( _ => console.log(`Update Pokemon id=${pokemon.id}`)),
+      tap(_ => console.log(`Update Pokemon id=${pokemon.id}`)),
       catchError(this.handleError<any>('updated Pokemon'))
+    );
+  }
+
+  deletePokemon(pokemon: Pokemon): Observable<Pokemon> {
+    const url = `${this.pokemonsUrl}/${pokemon.id}`;
+
+    const httpOptions = {
+      headers: new HttpHeaders({'Context-type': 'application/json'})
+    };
+    return this.http.delete(url, httpOptions).pipe(
+      tap(_ => console.log(`Delete Pokemon id=${pokemon.id}`)),
+      catchError(this.handleError<any>('deleted Pokemon'))
     );
   }
 
