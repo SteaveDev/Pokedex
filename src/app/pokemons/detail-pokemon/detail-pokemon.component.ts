@@ -44,4 +44,9 @@ export class DetailPokemonComponent implements OnInit {
     console.log('bingo');
   }
 
+  editerPokemon(pokemonToEdit: Pokemon): void{
+    const link = ['pokemon/edit', pokemonToEdit.id];
+    this.router.navigate(link);
+  }
+
 }
