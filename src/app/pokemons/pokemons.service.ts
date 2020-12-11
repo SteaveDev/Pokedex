@@ -52,14 +52,27 @@ export class PokemonsService {
 
   deletePokemon(pokemon: Pokemon): Observable<Pokemon> {
     const url = `${this.pokemonsUrl}/${pokemon.id}`;
-
     const httpOptions = {
       headers: new HttpHeaders({'Context-type': 'application/json'})
     };
+
     return this.http.delete(url, httpOptions).pipe(
       tap(_ => console.log(`Delete Pokemon id=${pokemon.id}`)),
       catchError(this.handleError<any>('deleted Pokemon'))
     );
+  }
+
+  // @ts-ignore
+  searchPokemons(term: string): Observable<Pokemon[]> {
+    if (!term.trim()) {
+      return of([]);
+    }
+
+    return this.http.get<Pokemon[]>(`${this.pokemonsUrl}/?name=${term}`).pipe(
+      tap(_ => console.log(`found pokemons matching "${term}"`)),
+      catchError(this.handleError<Pokemon[]>('searchPokemon', []))
+    );
+
   }
 
   getPokemonTypes(): string[] {
