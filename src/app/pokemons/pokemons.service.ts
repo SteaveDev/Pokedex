@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Pokemon} from '../pokemon';
-import {POKEMONS} from '../shared/list.pokemons';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable, of} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
 
 
 @Injectable({
@@ -8,22 +10,44 @@ import {POKEMONS} from '../shared/list.pokemons';
 })
 export class PokemonsService {
 
-  constructor() {
+  private pokemonsUrl = 'api/pokemons';
+
+  // tslint:disable-next-line:typedef
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.log(error);
+      console.log(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
   }
 
-  getListPokemons(): Pokemon[] {
-    return POKEMONS;
+  constructor(private http: HttpClient) {
+  }
+
+  getListPokemons(): Observable<Pokemon[]> {
+    return this.http.get<Pokemon[]>(this.pokemonsUrl).pipe(
+      tap(_ => console.log('fetched Pokemon')),
+      catchError(this.handleError('getListPokemons', []))
+    );
   }
 
   // @ts-ignore
-  getSinglePokemon(id: number): Pokemon {
-    const listPkm = this.getListPokemons();
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < listPkm.length; i++) {
-      if (id === listPkm[i].id) {
-        return listPkm[i];
-      }
-    }
+  getSinglePokemon(id: number): Observable<Pokemon> {
+    const url = `${this.pokemonsUrl}/${id}`;
+    return this.http.get<Pokemon>(url).pipe(
+      tap(_ => console.log(`Fetched Pokemon id= ${id}`)),
+      catchError(this.handleError<Pokemon>(`Get pokemon id=${id}`))
+    );
+  }
+
+  updatePokemon(pokemon: Pokemon): Observable<Pokemon> {
+    const httpOptions = {
+      headers : new HttpHeaders({'Context-type': 'application/json'})
+    };
+    return this.http.put(this.pokemonsUrl, pokemon, httpOptions).pipe(
+      tap( _ => console.log(`Update Pokemon id=${pokemon.id}`)),
+      catchError(this.handleError<any>('updated Pokemon'))
+    );
   }
 
   getPokemonTypes(): string[] {

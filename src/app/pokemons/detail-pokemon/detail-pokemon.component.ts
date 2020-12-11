@@ -20,7 +20,7 @@ export class DetailPokemonComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     const id = +this.route.snapshot.paramMap.get('id');
-    this.pokemonToDisplay = this.pokemonService.getSinglePokemon(id);
+    this.pokemonService.getSinglePokemon(id).subscribe(pkm => this.pokemonToDisplay = pkm);
 
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < this.listOfPokemons.length; i++) {

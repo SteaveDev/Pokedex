@@ -11,7 +11,7 @@ import {PokemonsService} from '../pokemons.service';
 export class PokemonEditComponent implements OnInit {
 
   // @ts-ignore
-  singlePokemon: Pokemon = null;
+  singlePokemon: Observable<Pokemon> = null;
 
   constructor(private route: ActivatedRoute, private pokemonService: PokemonsService) {
   }
@@ -19,7 +19,8 @@ export class PokemonEditComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     const id = +this.route.snapshot.paramMap.get('id');
-    this.singlePokemon = this.pokemonService.getSinglePokemon(id);
+    this.pokemonService.getSinglePokemon(id).subscribe(pkm => this.singlePokemon = pkm);
+
   }
 
 }
